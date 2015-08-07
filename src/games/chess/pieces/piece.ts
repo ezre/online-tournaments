@@ -3,11 +3,16 @@ import Position = require('../../position');
 import Player   = require('../../player');
 
 class Piece {
-  name: string;
+  static name: string;
   isAlive: boolean;
   board: Board;
   player: Player;
-  private _position: Position;
+  protected _position: Position;
+  
+  constructor(position: Position) {
+    this._position = position;
+    this.isAlive = true;
+  }
   
   set position(position: Position) {
     if(this.board.isInRange(position) && this.validateMove(position)) {
@@ -21,6 +26,13 @@ class Piece {
   
   validateMove(position: Position) {
     return false;
+  }
+  
+  getPositionDiff(position: Position) {
+    return {
+      x: position.x - this._position.x,
+      y: position.y - this._position.y
+    }
   }
 }
 

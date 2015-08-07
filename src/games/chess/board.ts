@@ -5,6 +5,12 @@ class Board {
   static size = { x: 8, y: 8 };
   private _pieces: Piece[];
   
+  constructor() {
+    for (var index = 0; index < 8; index++) {
+      // this.addPiece(new )
+    }
+  }
+  
   addPiece(piece: Piece) {
     this._pieces.push(piece);
     
