@@ -3,12 +3,7 @@ import Position = require('../../position');
 
 class Queen extends Piece {
   static name = 'Queen';
-  hasMoved: boolean;
-  
-  constructor(position: Position) {
-    super(position);
-    this.hasMoved = false;
-  }
+  static canJumpOver = false;
   
   validateMove(position: Position) {
     var posDiff = this.getPositionDiff(position);
@@ -19,3 +14,5 @@ class Queen extends Piece {
       (posDiff.y == 0 && posDiff.x != 0)); 
   }
 }
+
+export = Queen;

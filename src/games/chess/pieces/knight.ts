@@ -3,6 +3,7 @@ import Position = require('../../position');
 
 class Knight extends Piece {
   static name = 'Knight';
+  static canJumpOver = true;
   
   validateMove(position: Position) {    
     var posDiff = this.getPositionDiff(position);
@@ -11,3 +12,5 @@ class Knight extends Piece {
       (Math.abs(posDiff.x) == 2 && Math.abs(posDiff.y) == 1));
   }
 }
+
+export = Knight;

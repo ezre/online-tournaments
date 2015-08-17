@@ -4,14 +4,17 @@ import Player   = require('../../player');
 
 class Piece {
   static name: string;
+  static canJumpOver: boolean;
+  hasMoved: boolean;
   isAlive: boolean;
   board: Board;
   player: Player;
   protected _position: Position;
   
   constructor(position: Position) {
-    this._position = position;
-    this.isAlive = true;
+    this._position  = position;
+    this.isAlive    = true;
+    this.hasMoved   = false;
   }
   
   set position(position: Position) {
@@ -26,6 +29,10 @@ class Piece {
   
   validateMove(position: Position) {
     return false;
+  }
+  
+  validateCapture(position: Position) {
+    return this.validateMove(position);
   }
   
   getPositionDiff(position: Position) {
