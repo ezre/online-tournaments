@@ -7,10 +7,6 @@ class Pawn extends Piece {
   
   direction: number;
   
-  constructor(position: Position) {
-    super(position);
-  }
-  
   validateMove(position: Position) {
     var posDiff   = this.getPositionDiff(position);
     var maxYdiff  = this.direction * (this.hasMoved ? 1 : 2); 
