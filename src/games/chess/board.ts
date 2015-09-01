@@ -7,13 +7,16 @@ import Bishop   = require('pieces/bishop');
 import King     = require('pieces/king');
 import Queen    = require('pieces/queen');
 import Rook     = require('pieces/rook');
+import ExArray  = require('../../utils/exArray');
 
 class Board {
   static size = { x: 8, y: 8 };
-  private _pieces: Piece[];
+  private _pieces: ExArray;
   game: Game;
   
   constructor(game: Game) {
+    this._pieces = new ExArray();
+    
     for (var player = 0; player <= 1; player++) {
       for (var row = player ? 6 : 0, maxRow = row + 1; row <= maxRow; row ++) {
         for (var column = 0; column < 8; column++) {
@@ -46,21 +49,17 @@ class Board {
       }
     }
     
-    
+    this.addPiece(piece);
   }
   
   addPiece(piece: Piece) {
-    this._pieces.push(piece);
+    this._pieces.add(piece);
     
     return this;
   }
   
   removePiece(piece: Piece) {
-    var idx = this._pieces.indexOf(piece);
-    
-    if (idx > -1) {
-      this._pieces.slice(idx, 1);
-    }
+    this._pieces.remove(piece);
   }
   
   isInRange(position: Position) {
