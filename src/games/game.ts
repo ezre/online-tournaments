@@ -20,11 +20,7 @@ class Game {
   }
   
   removePlayer(player: Player) {
-    var idx = this._players.indexOf(player);
-    
-    if (idx > -1) {
-      this._players.slice(idx, 1);
-    }
+    this._players.remove(player);
   } 
 }
 
