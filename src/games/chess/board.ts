@@ -12,6 +12,7 @@ import ExArray  = require('../../utils/exArray');
 class Board {
   static size = { x: 8, y: 8 };
   private _pieces: ExArray;
+  squareArray: Piece[][];
   game: Game;
   
   constructor(game: Game) {
@@ -54,12 +55,18 @@ class Board {
   
   addPiece(piece: Piece) {
     this._pieces.add(piece);
-    
+    this.squareArray[piece.position.x][piece.position.y] = piece;
+
     return this;
   }
   
   removePiece(piece: Piece) {
     this._pieces.remove(piece);
+    this.squareArray[piece.position.x][piece.position.y] = null;
+  }
+  
+  movePiece(piece: Piece, position: Position) {
+    // @todo: Need to implement piece move condition check here
   }
   
   isInRange(position: Position) {
@@ -68,6 +75,17 @@ class Board {
       position.y > 0 &&
       position.y < Board.size.y;
     
+  }
+  
+  getPieceByPosition(position: Position) {
+    var piece = null
+    
+    if(typeof this.squareArray[position.x][position.y] !== 'undefined' &&
+    this.squareArray[position.x][position.y] !== null) {
+      piece = this.squareArray[position.x][position.y]; 
+    }
+    
+    return piece;
   }
 }
 
