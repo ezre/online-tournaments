@@ -21,7 +21,11 @@ class Game {
   
   removePlayer(player: Player) {
     this._players.remove(player);
-  } 
+  }
+  
+  hasPlayer(player: Player) {
+    return this._players.has(player);
+  }
 }
 
 export = Game;
