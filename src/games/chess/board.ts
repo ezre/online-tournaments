@@ -9,6 +9,11 @@ import Queen    = require('pieces/queen');
 import Rook     = require('pieces/rook');
 import ExArray  = require('../../utils/exArray');
 
+enum ActionType {
+  Move,
+  Capture
+};
+
 class Board {
   static size = { x: 8, y: 8 };
   private _pieces: ExArray;
@@ -66,7 +71,19 @@ class Board {
   }
   
   movePiece(piece: Piece, position: Position) {
-    // @todo: Need to implement piece move condition check here
+    if (this.isInRange(position)) {
+      var actionType = null;
+      if (this.getPieceByPosition(position) === null) {
+        actionType = ActionType.Move;
+        piece.validateMove(position);
+      } else {
+        actionType = ActionType.Capture;
+        piece.validateCapture(position);
+      }
+      piece.position = position;
+    }
+    
+    // @todo Add further move validation and cases 
   }
   
   isInRange(position: Position) {
