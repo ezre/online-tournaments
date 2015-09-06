@@ -22,6 +22,8 @@ class Chess extends Game {
     if (this.activePlayer === null) {
       this.activePlayer = this._players.first();
     }
+    
+    return this;
   }
   
   removePLayer(player: Player) {
