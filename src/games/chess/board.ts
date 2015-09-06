@@ -71,19 +71,13 @@ class Board {
   }
   
   movePiece(piece: Piece, position: Position) {
+    var result = false;
     if (this.isInRange(position)) {
-      var actionType = null;
-      if (this.getPieceByPosition(position) === null) {
-        actionType = ActionType.Move;
-        piece.validateMove(position);
-      } else {
-        actionType = ActionType.Capture;
-        piece.validateCapture(position);
-      }
       piece.position = position;
+      result = true;
     }
     
-    // @todo Add further move validation and cases 
+    return result;
   }
   
   isInRange(position: Position) {
@@ -91,7 +85,6 @@ class Board {
       position.x < Board.size.x &&
       position.y > 0 &&
       position.y < Board.size.y;
-    
   }
   
   getPieceByPosition(position: Position) {

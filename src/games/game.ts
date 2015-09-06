@@ -4,7 +4,7 @@ import ExArray  = require('../utils/exArray');
 class Game {
   id: number;
   createdAt: Date;
-  private _players: ExArray;
+  protected _players: ExArray;
   maxPlayers: number;
   
   constructor() {
