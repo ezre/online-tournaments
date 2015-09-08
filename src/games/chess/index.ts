@@ -56,12 +56,39 @@ class Chess extends Game {
   }
   
   isCastling(player: Player, pieceMoved: Piece, pieceTo: Piece) {
-    if (pieceMoved.hasMoved === false && pieceTo.hasMoved === false &&
-    ((pieceMoved instanceof King && pieceTo instanceof Rook) ||
-    (pieceTo instanceof King || pieceMoved instanceof Rook)) &&
-    /* @todo Check if all fields between are empty */) {
+    var isPiecesCorrect = function() {
+      return (pieceMoved.hasMoved === false && pieceTo.hasMoved === false &&
+        ((pieceMoved instanceof King && pieceTo instanceof Rook) ||
+        (pieceTo instanceof King && pieceMoved instanceof Rook)))
+      ;
+    } 
+    
+    var isFieldsBetweenEmpty = function() {
+      var posXFrom, posXTo, isEmpty = true, y = pieceMoved.position.y;
+      if (pieceMoved.position.x > pieceTo.position.x) {
+        posXFrom  = pieceTo.position.x;
+        posXTo    = pieceMoved.position.x;
+      } else {
+        posXFrom  = pieceMoved.position.x;
+        posXTo    = pieceTo.position.x;
+      }
       
+      for (var x = posXFrom + 1; x < posXTo; x++) {
+        if (this.board.getPieceByPosition({ x: x, y: y }) !== null) {
+          isEmpty = false;
+          break;
+        }
+      }
+      
+      return isEmpty;
     }
+    
+    var isKingCastlingAllowed = function() {
+      var king = pieceMoved instanceof King ? pieceMoved : pieceTo;
+      return king.canDoCastling;
+    }
+    
+    return (isPiecesCorrect() && isFieldsBetweenEmpty() && isKingCastlingAllowed());
   }
 }
 

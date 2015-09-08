@@ -4,6 +4,12 @@ import Position = require('../../position');
 class King extends Piece {
   static name = 'King';
   static canJumpOver = false;
+  canDoCastling: boolean;
+  
+  constructor(position: Position) {
+    super(position);
+    this.canDoCastling = true;
+  }
   
   validateMove(position: Position) {    
     var posDiff = this.getPositionDiff(position);
