@@ -4,18 +4,26 @@ import Position = require('../../position');
 class King extends Piece {
   static name = 'King';
   static canJumpOver = false;
-  canDoCastling: boolean;
+  hasDoneCastling: boolean;
   
   constructor(position: Position) {
     super(position);
-    this.canDoCastling = true;
+    this.hasDoneCastling = false;
   }
   
-  validateMove(position: Position) {    
+  validateMove(position: Position) {
     var posDiff = this.getPositionDiff(position);
     
     return !!((posDiff.x != 0 || posDiff.y != 0) &&
       Math.abs(posDiff.x) <= 1 && Math.abs(posDiff.y) <= 1);
+  }
+  
+  canDoCastling() {
+    return !this.hasDoneCastling && !this.hasMoved;
+  }
+  
+  isInCheck() {
+    // @todo Implement is in check method!
   }
 }
 
