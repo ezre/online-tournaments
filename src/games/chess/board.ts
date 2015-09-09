@@ -75,6 +75,9 @@ class Board {
     if (this.isInRange(position)) {
       piece.position = position;
       result = true;
+      if (!piece.hasMoved) {
+        piece.hasMoved = true;
+      }
     }
     
     return result;
@@ -96,6 +99,30 @@ class Board {
     }
     
     return piece;
+  }
+  
+  areFieldsEmpty(positionFrom: Position, positionTo: Position) {
+    var startX, startY, endX, endY, areEmpty = true;
+    
+    startX  = Math.min(positionFrom.x, positionTo.x);
+    endX    = Math.max(positionFrom.x, positionTo.x);
+    startY  = Math.min(positionFrom.y, positionTo.y);
+    endY    = Math.max(positionFrom.y, positionTo.y);
+    
+    for (var y = startY; y <= endY; y++) {
+      for (var x = startX; x <= endX; x++) {
+        if (typeof this.squareArray[x][y] !== 'undefined' &&
+        this.squareArray[x][y] !== null) {
+          areEmpty = false;
+          break;
+        }
+      }
+      if (areEmpty === false) {
+        break;
+      }
+    }
+    
+    return areEmpty;
   }
 }
 
