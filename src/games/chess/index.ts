@@ -7,6 +7,7 @@ import Player   = require('../player');
 import Piece    = require('./pieces/piece');
 import King     = require('./pieces/king');
 import Rook     = require('./pieces/rook');
+import Pawn     = require('./pieces/pawn');
 
 class Chess extends Game {
   board: Board;
@@ -37,23 +38,9 @@ class Chess extends Game {
     }
   }
   
-  movePiece(player: Player, posFrom: Position, posTo: Position) {
-    if (this.hasPlayer(player)) {
-      var piece = this.board.getPieceByPosition(posFrom);
-      if (piece !== null && piece.getPlayer() === player) {
-        var pieceTo = this.board.getPieceByPosition(posTo);
-        if (pieceTo === null) {
-          if (piece instanceof King && Math.abs(posFrom.x - posTo.x) === 2 &&
-          posFrom.y === posTo.y) {
-            this.doCastling(player, piece, posTo);
-          } else {
-            this.board.movePiece(piece, posTo);
-          }
-        }
-      } else {
-        return false;
-      }
-    }
+  isDoingEnPassant(posFrom: Position, posTo: Position) {
+    return (Math.abs(posFrom.x - posTo.x) == 1 &&
+    Math.abs(posFrom.y - posTo.y) == 1);
   }
   
   doCastling(player: Player, king: King, posTo: Position) {
@@ -89,6 +76,50 @@ class Chess extends Game {
     }
     
     return castlingResult;
+  }
+  
+  getEnPassantPiece(pawn: Pawn) {
+    var nearPiece = this.board.getPieceByPosition({ 
+      x: pawn.position.x + 1,
+      y: pawn.position.y
+    }) || this.board.getPieceByPosition({
+      x: pawn.position.x - 1,
+      y: pawn.position.y
+    });
+    
+    if (nearPiece !== null &&
+    nearPiece.player !== pawn.player &&
+    nearPiece instanceof Pawn &&
+    nearPiece.isTwoRanksForward) {
+      return nearPiece;
+    } else {
+      return;
+    }
+  }
+  
+  movePiece(player: Player, posFrom: Position, posTo: Position) {
+    if (this.hasPlayer(player)) {
+      var piece = this.board.getPieceByPosition(posFrom);
+      if (piece !== null && piece.getPlayer() === player) {
+        var pieceTo = this.board.getPieceByPosition(posTo);
+        if (pieceTo === null) {
+          if (piece instanceof King &&
+          Math.abs(posFrom.x - posTo.x) === 2 &&
+          posFrom.y === posTo.y) {
+            this.doCastling(player, piece, posTo);
+          } else {
+            if (piece instanceof Pawn &&
+            this.isDoingEnPassant(posFrom, posTo) &&
+            this.getEnPassantPiece(piece) != null) {
+              this.getEnPassantPiece(piece).player = null;
+            }
+            this.board.movePiece(piece, posTo);
+          }
+        }
+      } else {
+        return false;
+      }
+    }
   }
 }
 
