@@ -5,10 +5,12 @@ class King extends Piece {
   static name = 'King';
   static canJumpOver = false;
   hasDoneCastling: boolean;
+  isInCheck: boolean;
   
   constructor(position: Position) {
     super(position);
     this.hasDoneCastling = false;
+    this.isInCheck = false;
   }
   
   validateMove(position: Position) {
@@ -20,10 +22,6 @@ class King extends Piece {
   
   canDoCastling() {
     return !this.hasDoneCastling && !this.hasMoved;
-  }
-  
-  isInCheck() {
-    // @todo Implement is in check method!
   }
 }
 
