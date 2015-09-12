@@ -26,6 +26,28 @@ class Game {
   hasPlayer(player: Player) {
     return this._players.has(player);
   }
+  
+  getPlayers() {
+    return this._players;
+  }
+  
+  getFirstOpponent(currentPlayer: Player) {
+    var playerIdx, player, currentPlayerIdx;
+    
+    if(this._players.length() < 2) {
+      return null;
+    }
+    
+    currentPlayerIdx = this._players.indexOf(currentPlayer);
+    
+    for(playerIdx in this._players) {
+      if(playerIdx !== currentPlayerIdx) {
+        return this._players.get(playerIdx);
+      }
+    }
+    
+    return null;
+  }
 }
 
 export = Game;
