@@ -1,18 +1,18 @@
 /// <reference path="../../../typings/tsd.d.ts"/>
 
-import Game     = require('../game');
-import Board    = require('./board');
-import Position = require('../position');
-import Player   = require('../player');
-import Piece    = require('./pieces/piece');
-import King     = require('./pieces/king');
-import Rook     = require('./pieces/rook');
-import Pawn     = require('./pieces/pawn');
+import Game         = require('../game');
+import Board        = require('./board');
+import Position     = require('../position');
+import ChessPlayer  = require('../player');
+import Piece        = require('./pieces/piece');
+import King         = require('./pieces/king');
+import Rook         = require('./pieces/rook');
+import Pawn         = require('./pieces/pawn');
 
 class Chess extends Game {
   board: Board;
   maxPlayers = 2
-  activePlayer: Player;
+  activePlayer: ChessPlayer;
   
   constructor() {
     super();
@@ -20,7 +20,7 @@ class Chess extends Game {
     this.activePlayer = null;
   }
   
-  addPlayer(player: Player) {
+  addPlayer(player: ChessPlayer) {
     super.addPlayer(player);
     
     if (this.activePlayer === null) {
@@ -30,7 +30,7 @@ class Chess extends Game {
     return this;
   }
   
-  removePlayer(player: Player) {
+  removePlayer(player: ChessPlayer) {
     super.removePlayer(player);
     
     if(this._players.isEmpty()) {
@@ -43,7 +43,7 @@ class Chess extends Game {
     Math.abs(posFrom.y - posTo.y) == 1);
   }
   
-  doCastling(player: Player, king: King, posTo: Position) {
+  doCastling(player: ChessPlayer, king: King, posTo: Position) {
     var isFieldsBetweenEmpty,
         isKingCastlingAllowed,
         rook,
@@ -97,7 +97,7 @@ class Chess extends Game {
     }
   }
   
-  movePiece(player: Player, posFrom: Position, posTo: Position) {
+  movePiece(player: ChessPlayer, posFrom: Position, posTo: Position) {
     if (this.hasPlayer(player)) {
       var piece = this.board.getPieceByPosition(posFrom);
       if (piece !== null && piece.getPlayer() === player) {
