@@ -63,6 +63,10 @@ class ExArray {
   clear() {
     this._elements = [];
   }
+  
+  length() {
+    return this._elements.length;
+  }
 }
 
 export = ExArray;
