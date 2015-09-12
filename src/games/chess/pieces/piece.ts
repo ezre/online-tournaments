@@ -35,14 +35,6 @@ class Piece {
     return this.validateMove(position);
   }
   
-  getMoveFields(position: Position) {
-    return [];
-  }
-  
-  getCaptureFields(position: Position) {
-    return this.getMoveFields(position);
-  }
-  
   getPositionDiff(position: Position) {
     return {
       x: position.x - this._position.x,
