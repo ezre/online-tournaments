@@ -5,12 +5,12 @@ class King extends Piece {
   static name = 'King';
   static canJumpOver = false;
   hasDoneCastling: boolean;
-  isInCheck: boolean;
+  inCheck: boolean;
   
   constructor(position: Position) {
     super(position);
     this.hasDoneCastling = false;
-    this.isInCheck = false;
+    this.inCheck = false;
   }
   
   validateMove(position: Position) {
@@ -22,6 +22,10 @@ class King extends Piece {
   
   canDoCastling() {
     return !this.hasDoneCastling && !this.hasMoved;
+  }
+  
+  isInCheck() {
+    var opponent = this.board.game.getFirstOpponent(this.player);
   }
 }
 
