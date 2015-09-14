@@ -1,6 +1,6 @@
-import Board    = require('../board');
-import Position = require('../../position');
-import Player   = require('../../player');
+import Board        = require('../board');
+import Position     = require('../../position');
+import ChessPlayer  = require('../chessPlayer');
 
 class Piece {
   static name: string;
@@ -8,7 +8,7 @@ class Piece {
   hasMoved: boolean;
   isAlive: boolean;
   board: Board;
-  player: Player;
+  player: ChessPlayer;
   protected _position: Position;
   
   constructor(position: Position) {
