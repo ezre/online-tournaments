@@ -66,8 +66,9 @@ class Board {
   }
   
   removePiece(piece: Piece) {
-    this._pieces.remove(piece);
     this.squareArray[piece.position.x][piece.position.y] = null;
+    piece.player.removePiece(piece);
+    piece.player = null;
   }
   
   movePiece(piece: Piece, position: Position) {

@@ -115,12 +115,10 @@ class Chess extends Game {
             if (piece instanceof Pawn &&
             this.isDoingEnPassant(posFrom, posTo) &&
             this.getEnPassantPiece(piece) != null) {
-              var opponent, opponentPiece;
-              opponentPiece = this.getEnPassantPiece(piece)
-              opponent      = opponentPiece.player;
-              opponent.removePiece();
-              opponentPiece.player = null;
+              var opponentPiece = this.getEnPassantPiece(piece);
+              this.board.removePiece(opponentPiece);
               // @todo move piece appropriately
+              hasMoved = true;
             }
             if (piece.validateMove(posTo)) {
               this.board.movePiece(piece, posTo);
@@ -130,8 +128,7 @@ class Chess extends Game {
         } else {
           if (piece.validateCapture(posTo)) {
             var opponentPiece = this.board.getPieceByPosition(posTo);
-            opponentPiece.player.removePiece(piece);
-            opponentPiece.player = null;
+            this.board.removePiece(opponentPiece);
             hasMoved = true;
           }
         }
