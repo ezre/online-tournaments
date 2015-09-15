@@ -118,6 +118,7 @@ class Chess extends Game {
               var opponentPiece = this.getEnPassantPiece(piece);
               this.board.removePiece(opponentPiece);
               // @todo move piece appropriately
+              piece.position.x = opponentPiece.position.x; 
               hasMoved = true;
             }
             if (piece.validateMove(posTo)) {
