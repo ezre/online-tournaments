@@ -27,6 +27,14 @@ class Game {
     return this._players.has(player);
   }
   
+  getFirstPlayer() {
+    return this._players.first();
+  }
+  
+  getLastPlayer() {
+    return this._players.last();
+  }
+  
   getPlayers() {
     return this._players;
   }
