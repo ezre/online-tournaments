@@ -5,7 +5,7 @@ class Game {
   id: number;
   createdAt: Date;
   protected _players: ExArray;
-  maxPlayers: number;
+  static maxPlayers: number;
   
   constructor() {
     this.id         = 1; // @TODO: generate a random number here

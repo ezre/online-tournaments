@@ -3,11 +3,12 @@
 import Game         = require('../game');
 import Board        = require('./board');
 import Position     = require('../position');
-import ChessPlayer  = require('../player');
+import ChessPlayer  = require('./chessPlayer');
 import Piece        = require('./pieces/piece');
 import King         = require('./pieces/king');
 import Rook         = require('./pieces/rook');
 import Pawn         = require('./pieces/pawn');
+import Direction    = require('./direction');
 
 class Chess extends Game {
   board: Board;
@@ -21,10 +22,18 @@ class Chess extends Game {
   }
   
   addPlayer(player: ChessPlayer) {
-    super.addPlayer(player);
-    
-    if (this.activePlayer === null) {
-      this.activePlayer = this._players.first();
+    if (this._players.length() <= Chess.maxPlayers) {
+      super.addPlayer(player);
+      
+      if (this._players.length() === 1) {
+        this._players.first().direction = Direction.Up;
+      } else {
+        this._players.last().direction = Direction.Down;
+      }
+      
+      if (this.activePlayer === null) {
+        this.activePlayer = this._players.first();
+      }
     }
     
     return this;
