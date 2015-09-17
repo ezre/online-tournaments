@@ -47,9 +47,9 @@ class Chess extends Game {
     }
   }
   
-  isDoingEnPassant(posFrom: Position, posTo: Position) {
+  isDoingEnPassant(player: ChessPlayer, posFrom: Position, posTo: Position) {
     return (Math.abs(posFrom.x - posTo.x) == 1 &&
-    Math.abs(posFrom.y - posTo.y) == 1);
+    posFrom.y - posTo.y === player.direction);
   }
   
   doCastling(player: ChessPlayer, king: King, posTo: Position) {
@@ -87,13 +87,10 @@ class Chess extends Game {
     return castlingResult;
   }
   
-  getEnPassantPiece(pawn: Pawn) {
-    var nearPiece = this.board.getPieceByPosition({ 
-      x: pawn.position.x + 1,
-      y: pawn.position.y
-    }) || this.board.getPieceByPosition({
-      x: pawn.position.x - 1,
-      y: pawn.position.y
+  getEnPassantPiece(player: ChessPlayer, pawn: Pawn, posTo: Position) {
+    var nearPiece = this.board.getPieceByPosition({
+      x: posTo.x,
+      y: posTo.y - player.direction
     });
     
     if (nearPiece !== null &&
@@ -107,27 +104,29 @@ class Chess extends Game {
   }
   
   movePiece(player: ChessPlayer, posFrom: Position, posTo: Position) {
-    var hasMoved = false;
+    var hasMoved, piece, opponentPiece, pieceTo;
+    hasMoved = false;
     
-    if (this.hasPlayer(player)) {
-      var piece = this.board.getPieceByPosition(posFrom);
+    if (this.hasPlayer(player) && player === this.activePlayer &&
+    this.board.isInRange(posTo)) {
+      piece = this.board.getPieceByPosition(posFrom);
       if (piece !== null && piece.getPlayer() === player) {
-        var pieceTo = this.board.getPieceByPosition(posTo);
+        pieceTo = this.board.getPieceByPosition(posTo);
         if (pieceTo === null) {
           if (piece instanceof King &&
           Math.abs(posFrom.x - posTo.x) === 2 &&
           posFrom.y === posTo.y) {
             this.doCastling(player, piece, posTo);
           } else {
-            // @todo Should also check enpassant move
-            // valitity in here
             if (piece instanceof Pawn &&
-            this.isDoingEnPassant(posFrom, posTo) &&
-            this.getEnPassantPiece(piece) != null) {
-              var opponentPiece = this.getEnPassantPiece(piece);
+            this.isDoingEnPassant(player, posFrom, posTo) &&
+            this.getEnPassantPiece(player, piece, posTo) != null) {
+              opponentPiece = this.getEnPassantPiece(player, piece, posTo);
               this.board.removePiece(opponentPiece);
-              // @todo move piece appropriately
-              piece.position.x = opponentPiece.position.x; 
+              piece.position = {
+                x: opponentPiece.position.x,
+                y: opponentPiece.position.y + player.direction
+              };
               hasMoved = true;
             }
             if (piece.validateMove(posTo)) {
@@ -137,7 +136,7 @@ class Chess extends Game {
           }
         } else {
           if (piece.validateCapture(posTo)) {
-            var opponentPiece = this.board.getPieceByPosition(posTo);
+            opponentPiece = this.board.getPieceByPosition(posTo);
             this.board.removePiece(opponentPiece);
             hasMoved = true;
           }
