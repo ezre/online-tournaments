@@ -10,15 +10,53 @@ import Rook         = require('./pieces/rook');
 import Pawn         = require('./pieces/pawn');
 import Direction    = require('./direction');
 
+enum GameStatus {
+  Idle        = 0,
+  InProgress  = 1,
+  Finished    = 2
+}
+
 class Chess extends Game {
   board: Board;
   maxPlayers = 2
   activePlayer: ChessPlayer;
+  playerTime: number;
+  winner: ChessPlayer;
+  status: GameStatus;
   
   constructor() {
     super();
-    this.board = new Board(this);
+    this.board        = new Board(this);
     this.activePlayer = null;
+    this.winner       = null;
+    this.playerTime   = 300;
+    this.status       = GameStatus.Idle;
+  }
+  
+  start() {
+    var i, player;
+    for (i = 0; i < this._players.length(); i++) {
+      player = this._players.get(i);
+      player.time = this.playerTime;
+    }
+  }
+  
+  playerReady(player: ChessPlayer) {
+    var i, allPlayersReady;
+    
+    allPlayersReady = true;
+    player.isReady  = true;
+    
+    for (i = 0; i < this._players.length(); i++) {
+      if (this._players.get(i).isReady === false) {
+        allPlayersReady = false;
+        break;
+      }
+    }
+    
+    if (allPlayersReady) {
+      this.start();
+    }
   }
   
   addPlayer(player: ChessPlayer) {
