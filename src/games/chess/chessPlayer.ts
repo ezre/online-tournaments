@@ -7,12 +7,16 @@ import Direction = require('./direction');
 class ChessPlayer extends Player {
   private _pieces: ExArray;
   direction: Direction;
+  time: number;
+  isReady: boolean;
   
   constructor() {
     super();
     
     this._pieces    = new ExArray();
     this.direction  = null;
+    this.time       = 0;
+    this.isReady    = false;
   }
   
   addPiece(piece: Piece) {
