@@ -1,0 +1,29 @@
+{
+  "name": "online-tournaments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-typescript": "^2.8.0",
+    "merge2": "^0.3.6",
+    "socket.io": "^1.3.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezrepotein/online-tournaments.git"
+  },
+  "author": "Adam Urban",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ezrepotein/online-tournaments/issues"
+  },
+  "homepage": "https://github.com/ezrepotein/online-tournaments#readme"
+}
