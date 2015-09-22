@@ -13,14 +13,14 @@ router.get('/', function(req, res, next) {
 
 io.on('connection', function(socket) {
   console.log('New user connected');
-});
-
-router.post('/game/start', function(req, res, next) {
-  // @todo start new game here
-});
-
-router.post('/move', function (req, res, next) {
-  // @todo make a move here
+  
+  socket.on('game start', function(msg) {
+    console.log('Received game start message');
+  });
+  
+  socket.on('game piece move', function(msg) {
+    console.log('Piece move request');
+  });
 });
 
 var server = app.listen(3000, function() {
